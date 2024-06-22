@@ -15,7 +15,7 @@ export default {
   },
 
   cors: {
-    origin: [`http://127.0.0.1:${PORT}`],
+    origin: [<string>HOST],
     methods: ["GET", "POST"],
     credentials: true,
   },
