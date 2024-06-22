@@ -36,6 +36,7 @@ export default {
   clientMsg: {
     created: "User created successfully.",
     notFound: "User not found.",
+    dataRecv: "Data received successfully.",
   },
 
   adminMsg: {
