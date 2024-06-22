@@ -7,6 +7,7 @@ import db from "./db/sequelize.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
+import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRoutes);
 app.use("/user", clientRoutes);
+app.use("/auth/admin", adminAuthRoutes);
 
 db.sync()
   .then(() => {

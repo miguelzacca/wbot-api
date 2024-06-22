@@ -1,7 +1,7 @@
 "use strict";
 
 import Client from "../models/Client.js";
-import { IController, IUserModel } from "../types/interfaces";
+import { IController } from "../types/interfaces";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config.js";
 

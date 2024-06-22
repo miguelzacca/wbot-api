@@ -38,6 +38,10 @@ export default {
     notFound: "User not found.",
   },
 
+  adminMsg: {
+    notFound: "Admin not found.",
+  },
+
   serverMsg: {
     err: "A server occurred error. Please try later.",
     invalidToken: "Invalid token",

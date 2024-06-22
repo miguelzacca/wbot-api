@@ -1,14 +1,14 @@
 "use strict";
 
 import db from "../db/sequelize.js";
-import { UUID, UUIDV4, STRING, TEXT } from "sequelize";
+import { STRING, INTEGER } from "sequelize";
 
-const Client = db.define(
-  "Client",
+const Admin = db.define(
+  "Admim",
   {
     id: {
-      type: UUID,
-      defaultValue: UUIDV4,
+      type: INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
 
@@ -22,16 +22,10 @@ const Client = db.define(
       type: STRING(255),
       allowNull: false,
     },
-
-    data: {
-      type: TEXT,
-      defaultValue: "NULL",
-      allowNull: false,
-    },
   },
   {
     timestamps: false,
   }
 );
 
-export default Client;
+export default Admin;

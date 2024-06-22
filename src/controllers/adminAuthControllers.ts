@@ -2,25 +2,23 @@
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Client from "../models/Client.js";
 import config from "../config.js";
 import { IController, IUserModel } from "../types/interfaces";
 import { inputValidator } from "../utils.js";
+import Admin from "../models/Admin.js";
 
-export const register: IController = async (req, res) => {
+export const adminRegister: IController = async (req, res) => {
   try {
-    const { username, passwd } = inputValidator(req.body);
+    const { username, passwd, secret } = inputValidator(req.body);
 
-    const clientExists = await Client.findOne({ where: { username } });
-
-    if (clientExists) {
-      return res.status(409).json({ msg: config.authMsg.clientExists });
+    if (secret !== config.env.SECRET) {
+      return res.sendStatus(403);
     }
 
     const salt = await bcrypt.genSalt(10);
     const passwdHash = await bcrypt.hash(passwd, salt);
 
-    await Client.create({
+    await Admin.create({
       username,
       passwd: passwdHash,
     });
@@ -35,25 +33,25 @@ export const register: IController = async (req, res) => {
   }
 };
 
-export const login: IController = async (req, res) => {
+export const adminLogin: IController = async (req, res) => {
   try {
     const { username, passwd } = req.body;
 
-    const client: IUserModel | null = await Client.findOne({
+    const admin: IUserModel | null = await Admin.findOne({
       where: { username },
     });
 
-    if (!client) {
+    if (!admin) {
       return res.status(404).json({ msg: config.clientMsg.notFound });
     }
 
-    const checkPasswd = await bcrypt.compare(passwd, client.passwd);
+    const checkPasswd = await bcrypt.compare(passwd, admin.passwd);
 
     if (!checkPasswd) {
       return res.status(401).json({ msg: config.authMsg.incorrectPasswd });
     }
 
-    const token = jwt.sign({ id: client.id }, config.env.SECRET, {
+    const token = jwt.sign({ username: admin.id }, config.env.SECRET, {
       expiresIn: config.env.AUTH_DURATION_DAYS * 24 * 60 * 60,
     });
 
